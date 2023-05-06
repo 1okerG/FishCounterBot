@@ -33,7 +33,6 @@ async def per_year_category(callback_query: CallbackQuery, state: FSMContext):
     await state.update_data(start_date=start_date, end_date=end_date)
     await callback_query.message.answer('Підтверди вибір', reply_markup=keyboard10)
     await GetStartEndDate.show_stats.set()
-    print(456)
 
 async def by_months_category(callback_query: CallbackQuery):
     await callback_query.message.answer('Обери місяць', reply_markup=keyboard9)

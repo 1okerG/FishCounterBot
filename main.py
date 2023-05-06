@@ -13,4 +13,4 @@ fishing_process_handlers.register_handlers(dp)
 statistics_handlers.register_handlers(dp)
 
 if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True, on_startup=on_startup, timeout=60)
+    executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
