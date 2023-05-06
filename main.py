@@ -13,4 +13,4 @@ fishing_process_handlers.register_handlers(dp)
 statistics_handlers.register_handlers(dp)
 
 
-executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
+executor.start_polling(dp, skip_updates=True, on_startup=on_startup, timeout=60)
