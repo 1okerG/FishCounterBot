@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 
 from models import *
 
-engine = create_engine('sqlite:///fishing.db', echo=True)
+engine = create_engine('sqlite:///fishing.db')
 Session = sessionmaker(bind=engine)
 
 def fishing_statistics(session, user_id, start_date, end_date):
