@@ -1,1 +1,1 @@
-from keyboards.keyboards import *
+from .keyboards import *

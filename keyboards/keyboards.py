@@ -52,11 +52,14 @@ keyboard4 = ReplyKeyboardMarkup(
 keyboard7 = ReplyKeyboardMarkup(
         keyboard=[
             [
-                KeyboardButton(text='Я починаю / продовжую риболовлю 😎'),
-            ],
-            [
                 KeyboardButton(text='Статистика 📊'),
                 KeyboardButton(text='FAQ ☎️'),
+            ],
+            [
+                KeyboardButton(text='Я починаю|продовжую риболовлю 😎'),
+            ],
+            [
+                KeyboardButton(text='Додати статистику за минулою датою 🧾'),
             ]
         ],
         resize_keyboard=True
@@ -140,3 +143,32 @@ keyboard10 = InlineKeyboardMarkup(inline_keyboard=[
         InlineKeyboardButton('\u274C', callback_data='no'),
     ]
 ])
+
+keyboard11 = ReplyKeyboardMarkup(
+        keyboard=[
+            [
+                KeyboardButton(text='Продовжити ✅'),
+                KeyboardButton(text='Повернутися до меню 📱')
+            ]
+        ],
+        resize_keyboard=True
+    )
+
+keyboard12 = ReplyKeyboardMarkup(
+        keyboard=[
+            [
+                KeyboardButton(text='Звісно 😎'),
+                KeyboardButton(text='Повернутися до меню 📱')
+            ]
+        ],
+        resize_keyboard=True
+    )
+
+keyboard13 = ReplyKeyboardMarkup(
+        keyboard=[
+            [
+                KeyboardButton(text='Повернутися до меню 📱')
+            ]
+        ],
+        resize_keyboard=True
+    )

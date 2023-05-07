@@ -20,16 +20,16 @@ async def get_or_create_user(session, user_id, user_name):
         raise
     return user
 
-async def get_or_create_fishing_trip(session, user_id):
+async def get_or_create_fishing_trip(session, user_id, fishing_date=date.today()):
     try:
         fishtrip = session.query(FishingTrip).filter_by(
-            user_id=user_id, fishing_date=date.today()).first()
+            user_id=user_id, fishing_date=fishing_date).first()
         
         already_fishing = True
         
         if not fishtrip:
             already_fishing = False
-            fishtrip = FishingTrip(user_id=user_id)
+            fishtrip = FishingTrip(user_id=user_id, fishing_date=fishing_date)
             session.add(fishtrip)
             session.commit()
     except SQLAlchemyError:
@@ -37,16 +37,16 @@ async def get_or_create_fishing_trip(session, user_id):
         raise
     return already_fishing
 
-async def create_or_update_fish(session, user_id, fish_name, fish_count):
+async def create_or_update_fish(session, user_id, fish_name, fish_count, fishing_date=date.today()):
     try:
         fish = session.query(Fish).filter_by(
-            user_id=user_id, fishing_date=date.today(), fish_name=fish_name).first()
+            user_id=user_id, fishing_date=fishing_date, fish_name=fish_name).first()
         
         if fish:
             fish.fish_count += fish_count
             session.commit()
         elif not fish:
-            fish = Fish(user_id=user_id, fishing_date=date.today(), fish_name=fish_name, fish_count=fish_count)
+            fish = Fish(user_id=user_id, fishing_date=fishing_date, fish_name=fish_name, fish_count=fish_count)
             session.add(fish)
             session.commit()
     except SQLAlchemyError:

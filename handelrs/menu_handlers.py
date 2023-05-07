@@ -18,7 +18,7 @@ async def start(message: types.Message):
     await bot.send_message(message.from_user.id, message_for_user, reply_markup=keyboard2)
 
 async def menu(message: types.Message):
-    await message.answer('Вибери дію', reply_markup=keyboard7)
+    await message.answer('Вибери розділ 🗂', reply_markup=keyboard7)
 
 async def help_info(message: types.Message):
     message_for_user = f'''Привіт {message.chat.first_name}, ласкаво просимо в FishCountBot,
@@ -29,7 +29,7 @@ async def help_info(message: types.Message):
 виявляти закономірності та планувати майбутні риболовлі. 🐟
 
 Крім того, наш бот дозволяє переглядати збережену статистику за обраним періодом часу. 📊
-Ти зможеш побачити, яка риба була поймана в певний період, 
+Ти зможеш побачити, яка риба була піймана в певний період, 
 скільки загалом риби було піймано та багато іншого. 🌅
 
 Не пропусти можливість контролювати свої риболовні досягнення та зробити свої майбутні риболовлі більш продуктивними та цікавими. 
@@ -42,4 +42,5 @@ def register_handlers(dp: Dispatcher):
     dp.register_message_handler(start, commands=['start', 'help'])
     dp.register_message_handler(menu, text='Меню 📱')
     dp.register_message_handler(menu, text='Я завершив рибалку 😑')
+    dp.register_message_handler(menu, text='Повернутися до меню 📱')
     dp.register_message_handler(help_info, text='FAQ ☎️')
