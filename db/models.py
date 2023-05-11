@@ -1,13 +1,8 @@
 from datetime import date
-from sqlalchemy import Date, create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy import Date, Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship, backref
-from sqlalchemy.ext.declarative import declarative_base
 
-
-# engine = create_engine('sqlite:///fishing.db', echo=True)
-
-
-Base = declarative_base()
+from .base import Base
 
 
 class User(Base):
@@ -35,8 +30,6 @@ class Fish(Base):
     fishingtrip = relationship('FishingTrip', backref=backref('fish', lazy=True))
     user = relationship('User', backref=backref('fish', lazy=True))
 
-
-# Base.metadata.create_all(engine)
 
 
 

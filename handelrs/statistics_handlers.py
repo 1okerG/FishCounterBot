@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from datetime import date
 
 from create_bot import *
-from utils import *
+from db import *
 from keyboards import keyboard8, keyboard9, keyboard10
 
 

@@ -6,7 +6,7 @@ from aiogram.types import CallbackQuery
 from aiogram_calendar import simple_cal_callback, SimpleCalendar
 
 from create_bot import *
-from utils import *
+from db import *
 from keyboards import keyboard10, keyboard11, keyboard5, keyboard6, keyboard7, keyboard12, keyboard13
 
 

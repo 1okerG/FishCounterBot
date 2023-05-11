@@ -3,10 +3,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import date
 
-from models import *
+from .models import *
 
-engine = create_engine('sqlite:///fishing.db')
-Session = sessionmaker(bind=engine)
 
 async def get_or_create_user(session, user_id, user_name):
     try:

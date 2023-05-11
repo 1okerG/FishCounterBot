@@ -2,7 +2,7 @@ from aiogram import types
 
 from create_bot import *
 from keyboards import keyboard7, keyboard2
-from utils import *
+from db import *
 
 
 async def start(message: types.Message):

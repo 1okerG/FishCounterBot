@@ -2,11 +2,17 @@ from aiogram.utils import executor
 
 from create_bot import *
 from handelrs import *
+from config import DATABASE_URL
+from db import Base, create_engine, create_database, get_session_maker
 
-
+async_engine = create_engine(DATABASE_URL)
+Session = get_session_maker(async_engine)
 
 async def on_startup(_):
-    pass
+    
+    await create_database(async_engine, Base.metadata)
+        
+    
 
 menu_handlers.register_handlers(dp)
 fishing_process_handlers.register_handlers(dp)

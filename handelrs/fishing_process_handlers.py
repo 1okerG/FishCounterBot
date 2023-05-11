@@ -6,7 +6,8 @@ from aiogram.types import CallbackQuery
 
 from keyboards import keyboard3, keyboard4, keyboard5, keyboard6, keyboard7, keyboard10
 from create_bot import *
-from utils import *
+from db import *
+from main import Session
 
 
 class CatchFish(StatesGroup):

@@ -3,10 +3,8 @@ from sqlalchemy import and_, func
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
-from models import *
+from .models import *
 
-engine = create_engine('sqlite:///fishing.db')
-Session = sessionmaker(bind=engine)
 
 def fishing_statistics(session, user_id, start_date, end_date):
     
