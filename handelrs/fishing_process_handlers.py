@@ -7,7 +7,6 @@ from aiogram.types import CallbackQuery
 from keyboards import keyboard3, keyboard4, keyboard5, keyboard6, keyboard7, keyboard10
 from create_bot import *
 from db import *
-from main import Session
 
 
 class CatchFish(StatesGroup):
@@ -42,8 +41,9 @@ async def have_fishing(callback_query: CallbackQuery, state: FSMContext):
     else:
         data = await state.get_data()
         user_id = data.get('user_id')
+        print(type(user_id), user_id, sep='\n\n', end='\n\n\n\n')
         
-        with Session() as session:
+        async with Session() as session:
             already_fishing = await get_or_create_fishing_trip(session=session, user_id=user_id)
             if already_fishing:
                 message_for_user = [
@@ -86,7 +86,7 @@ async def handle_confirmation(message: types.Message, state: FSMContext):
         fish_name = fish_data.get('fish_name')
         fish_count = int(fish_data.get('fish_count'))
         
-        with Session() as session:
+        async with Session() as session:
             await create_or_update_fish(session=session, user_id=message.from_user.id, 
                                         fish_name=fish_name, fish_count=fish_count) 
         

@@ -45,7 +45,7 @@ async def by_years_category(message: types.Message):
 
 async def try_month(callback_query: CallbackQuery, state: FSMContext):
     month_number = int(callback_query.data)
-    month_date = get_month_range(month_number=month_number)
+    month_date = await get_month_range(month_number=month_number)
     await state.update_data(start_date=month_date[0], end_date=month_date[1])
     await callback_query.message.answer('Підтверди вибір', reply_markup=keyboard10)
     await GetStartEndDate.show_stats.set()
@@ -66,10 +66,10 @@ async def show_stats(callback_query: CallbackQuery, state: FSMContext):
         )
         await state.finish()
     else:
-        with Session() as session:
-            stats = fishing_statistics(session=session, user_id=user_id, 
+        async with Session() as session:
+            stats = await fishing_statistics(session=session, user_id=user_id, 
                                    start_date=start_date, end_date=end_date)
-        await callback_query.message.answer(answers_for_statistics(stats=stats))
+        await callback_query.message.answer(await answers_for_statistics(stats=stats))
         await state.finish()
 
 

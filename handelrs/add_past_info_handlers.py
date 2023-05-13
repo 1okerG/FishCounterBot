@@ -64,7 +64,7 @@ async def add_fishing_date(callback_query: CallbackQuery, state: FSMContext):
         user_id = data.get('user_id')
         fishing_date = data.get('date')
 
-        with Session() as session:
+        async with Session() as session:
             already_fishing = await get_or_create_fishing_trip(session=session, 
                                                                user_id=user_id,
                                                                fishing_date=fishing_date)
@@ -114,7 +114,7 @@ async def confirmation(callback_query: CallbackQuery, state: FSMContext):
         user_id = data.get('user_id')
         fishing_date = data.get('date')
         
-        with Session() as session:
+        async with Session() as session:
             await create_or_update_fish(session=session, user_id=user_id, fishing_date=fishing_date,
                                         fish_name=fish_name, fish_count=fish_count) 
         

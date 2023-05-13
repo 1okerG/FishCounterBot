@@ -6,7 +6,7 @@ from db import *
 
 
 async def start(message: types.Message):
-    with Session() as session:
+    async with Session() as session:
         user_id = message.from_user.id
         user_name = message.chat.first_name
         user = await get_or_create_user(session, user_id=user_id, user_name=user_name)
