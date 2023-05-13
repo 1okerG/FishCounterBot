@@ -43,8 +43,11 @@ async def fishing_statistics(session, user_id, start_date, end_date):
                 fish_statistics[fish_name] += fish_count
             else:
                 fish_statistics[fish_name] = fish_count
-        
+    
+    if fish_statistics:    
         total_fish_count = sum([count for count in fish_statistics.values()])
+    else:
+        total_fish_count = 0
         
     return {
             'trips_count': trips_count,
@@ -66,11 +69,11 @@ async def answers_for_statistics(stats):
         return 'За обраний період в тебе не було жодної рибалки 🫡'
     elif not stats.get('fish_statistics'):
         return f'''Твої виїзди на риболовлю: 
-Всього рибалок: {stats.get('trips_count')}
-Успішних рибалок: {stats.get('successful')}
-Не успішних рибалок: {stats.get('unsuccessful')}
+Всього рибалок: {stats.get('trips_count')} 📊
+Успішних рибалок: {stats.get('successful')} ✅
+Не успішних рибалок: {stats.get('unsuccessful')} ❌
 
-За обраний період, нажаль, в тебе немає пійманих трофеїв'''
+За обраний період, нажаль, в тебе немає пійманих трофеїв 🤷‍♂️'''
     else:
         fish_stats_str = '\n'.join([f'{key}: {value}' for key, value in stats['fish_statistics'].items()])
         return f'''Твої виїзди на риболовлю 🛳: 

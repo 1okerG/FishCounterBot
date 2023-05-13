@@ -41,7 +41,6 @@ async def have_fishing(callback_query: CallbackQuery, state: FSMContext):
     else:
         data = await state.get_data()
         user_id = data.get('user_id')
-        print(type(user_id), user_id, sep='\n\n', end='\n\n\n\n')
         
         async with Session() as session:
             already_fishing = await get_or_create_fishing_trip(session=session, user_id=user_id)
