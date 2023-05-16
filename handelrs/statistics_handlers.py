@@ -6,7 +6,7 @@ from datetime import date
 
 from create_bot import *
 from db import *
-from keyboards import keyboard8, keyboard9, keyboard10
+from keyboards import stats_category_keyboard, month_keyboard, confirm_keyboard4, back_menu_keyboard
 
 
 class GetStartEndDate(StatesGroup):
@@ -15,15 +15,15 @@ class GetStartEndDate(StatesGroup):
     
 
 
-async def try_category(message: types.Message, state: FSMContext):
-    await state.update_data(user_id=message.from_user.id)
-    await bot.send_message(message.from_user.id, 'Обери категорію', reply_markup=keyboard8)
+async def try_category(callback_query: CallbackQuery, state: FSMContext):
+    await state.update_data(user_id=callback_query.from_user.id)
+    await callback_query.message.answer('Обери категорію 📁', reply_markup=stats_category_keyboard)
 
 async def per_month_category(callback_query: CallbackQuery, state: FSMContext):
     start_date = date(date.today().year, date.today().month, 1)
     end_date = date.today()
     await state.update_data(start_date=start_date, end_date=end_date)
-    await callback_query.message.answer('Підтверди вибір', reply_markup=keyboard10)
+    await callback_query.message.answer('Підтверди вибір', reply_markup=confirm_keyboard4)
     await GetStartEndDate.show_stats.set()
     print(123)
 
@@ -31,23 +31,23 @@ async def per_year_category(callback_query: CallbackQuery, state: FSMContext):
     start_date = date(date.today().year, 1, 1)
     end_date = date.today()
     await state.update_data(start_date=start_date, end_date=end_date)
-    await callback_query.message.answer('Підтверди вибір', reply_markup=keyboard10)
+    await callback_query.message.answer('Підтверди вибір', reply_markup=confirm_keyboard4)
     await GetStartEndDate.show_stats.set()
 
 async def by_months_category(callback_query: CallbackQuery):
-    await callback_query.message.answer('Обери місяць', reply_markup=keyboard9)
+    await callback_query.message.answer('Обери місяць', reply_markup=month_keyboard)
     await GetStartEndDate.try_month.set()
 
 async def by_years_category(message: types.Message):
     await bot.send_message(message.from_user.id,
         'Зараз ця функція знаходиться у розробці, спробуй пізніше, або обери іншу категорію',
-        reply_markup=keyboard8)
+        reply_markup=stats_category_keyboard)
 
 async def try_month(callback_query: CallbackQuery, state: FSMContext):
     month_number = int(callback_query.data)
     month_date = await get_month_range(month_number=month_number)
     await state.update_data(start_date=month_date[0], end_date=month_date[1])
-    await callback_query.message.answer('Підтверди вибір', reply_markup=keyboard10)
+    await callback_query.message.answer('Підтверди вибір', reply_markup=confirm_keyboard4)
     await GetStartEndDate.show_stats.set()
 
 async def show_stats(callback_query: CallbackQuery, state: FSMContext):
@@ -62,14 +62,15 @@ async def show_stats(callback_query: CallbackQuery, state: FSMContext):
         await callback_query.message.answer(
             '''На жаль я не можу зазирнути у майбутнє 😆
 Але я певен що на тебе чекають нові круті трофеї 🐡
-Спробуй обрати іншу категорію ☺️''', reply_markup=keyboard8
+Спробуй обрати іншу категорію ☺️''', reply_markup=stats_category_keyboard
         )
         await state.finish()
     else:
         async with Session() as session:
             stats = await fishing_statistics(session=session, user_id=user_id, 
                                    start_date=start_date, end_date=end_date)
-        await callback_query.message.answer(await answers_for_statistics(stats=stats))
+        await callback_query.message.answer(await answers_for_statistics(stats=stats), 
+                                            reply_markup=back_menu_keyboard)
         await state.finish()
 
 
@@ -78,7 +79,7 @@ async def show_stats(callback_query: CallbackQuery, state: FSMContext):
 
 
 def register_handlers(dp: Dispatcher):
-    dp.register_message_handler(try_category, text='Статистика 📊')
+    dp.register_callback_query_handler(try_category, lambda c: c.data == 'stats')
     dp.register_callback_query_handler(per_month_category, lambda c: c.data == 'per_month')
     dp.register_callback_query_handler(per_year_category, lambda c: c.data == 'per_year')
     dp.register_callback_query_handler(by_months_category, lambda c: c.data == 'by_months')

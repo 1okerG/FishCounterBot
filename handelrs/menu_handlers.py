@@ -1,7 +1,8 @@
 from aiogram import types
+from aiogram.types import CallbackQuery
 
 from create_bot import *
-from keyboards import keyboard7, keyboard2
+from keyboards import menu_keyboard, confirm_keyboard1
 from db import *
 
 
@@ -15,10 +16,11 @@ async def start(message: types.Message):
 Я допоможу тобі вести статистику твоїх рибалок. 
 Ты вже розпочав риболовлю? 🎣'''
         
-    await bot.send_message(message.from_user.id, message_for_user, reply_markup=keyboard2)
+    await message.answer(message_for_user, reply_markup=confirm_keyboard1)
 
-async def menu(message: types.Message):
-    await message.answer('Вибери розділ 🗂', reply_markup=keyboard7)
+async def menu(callback_query: CallbackQuery):
+    await callback_query.message.edit_reply_markup(reply_markup=None)
+    await callback_query.message.answer('Вибери розділ 🗂', reply_markup=menu_keyboard)
 
 async def help_info(message: types.Message):
     message_for_user = f'''Привіт {message.chat.first_name}, ласкаво просимо в FishCountBot,
@@ -40,7 +42,8 @@ async def help_info(message: types.Message):
 
 def register_handlers(dp: Dispatcher):
     dp.register_message_handler(start, commands=['start', 'help'])
-    dp.register_message_handler(menu, text='Меню 📱')
-    dp.register_message_handler(menu, text='Я завершив рибалку 😑')
-    dp.register_message_handler(menu, text='Повернутися до меню 📱')
+    # dp.register_message_handler(menu, text='Меню 📱')
+    # dp.register_message_handler(menu, text='Я завершив рибалку 😑')
+    # dp.register_message_handler(menu, text='Повернутися до меню 📱')
     dp.register_message_handler(help_info, text='FAQ ☎️')
+    dp.register_callback_query_handler(menu, lambda c: c.data == 'menu')

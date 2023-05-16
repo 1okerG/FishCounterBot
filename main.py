@@ -13,7 +13,7 @@ async def on_startup(_):
     
 
 menu_handlers.register_handlers(dp)
-fishing_process_handlers.register_handlers(dp)
+add_info_handlers.register_handlers(dp)
 statistics_handlers.register_handlers(dp)
 add_past_info_handlers.register_handlers(dp)
 
