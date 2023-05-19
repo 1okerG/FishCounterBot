@@ -5,7 +5,8 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import CallbackQuery
 
 from keyboards import select_fish_keyboard, select_fishcount_keyabord, confirm_keyboard4
-from keyboards import keyboard10, menu_keyboard, confirm_keyboard2, back_menu_keyboard, confirm_keyboard3
+from keyboards import menu_keyboard, confirm_keyboard2, back_menu_keyboard, confirm_keyboard3
+from .answers_for_user import ANSWERS
 from create_bot import *
 from db import *
 
@@ -49,12 +50,7 @@ async def have_fishing(callback_query: CallbackQuery, state: FSMContext):
         async with Session() as session:
             already_fishing = await get_or_create_fishing_trip(session=session, user_id=user_id)
             if already_fishing:
-                message_for_user = [
-                    'Схоже ти вже на риболовлі, ти зловив ще трофеї? 😉',
-                    'Я бачу ти продовжуєш рибалити, як успіхи, впіймав ще? 😉',
-                    'Так-так-так, новий трофей? 😉',
-                    'Риболовля триває, а чи є нові трофеї? 😉'
-                                    ]
+                message_for_user = ANSWERS.get('have_fishing')
             elif not already_fishing:
                 message_for_user = ['Що ж, почнемо, ти вже встиг щось зловити? 😊']
         

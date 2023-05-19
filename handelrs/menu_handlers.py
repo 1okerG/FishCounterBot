@@ -2,8 +2,9 @@ from aiogram import types
 from aiogram.types import CallbackQuery
 
 from create_bot import *
-from keyboards import menu_keyboard, confirm_keyboard1
+from keyboards import menu_keyboard, confirm_keyboard1, back_menu_keyboard
 from db import *
+from .answers_for_user import ANSWERS
 
 
 async def start(message: types.Message):
@@ -22,28 +23,12 @@ async def menu(callback_query: CallbackQuery):
     await callback_query.message.edit_reply_markup(reply_markup=None)
     await callback_query.message.answer('Вибери розділ 🗂', reply_markup=menu_keyboard)
 
-async def help_info(message: types.Message):
-    message_for_user = f'''Привіт {message.chat.first_name}, ласкаво просимо в FishCountBot,
-що допоможе зберігати та відстежувати статистику твоєї риболовлі! 😎
-
-З нашим ботом ти можеш легко вести облік своїх уловів - зберігати кількість риб, їх назви та дату риболовлі. 🎣
-Це дозволить тобі не лише не забувати, скільки і яку рибу ти піймав, але й аналізувати свої улови, 
-виявляти закономірності та планувати майбутні риболовлі. 🐟
-
-Крім того, наш бот дозволяє переглядати збережену статистику за обраним періодом часу. 📊
-Ти зможеш побачити, яка риба була піймана в певний період, 
-скільки загалом риби було піймано та багато іншого. 🌅
-
-Не пропусти можливість контролювати свої риболовні досягнення та зробити свої майбутні риболовлі більш продуктивними та цікавими. 
-Спробуй наш бот уже сьогодні та насолоджуйся своїми уловами! 💯👍'''
-
-    await message.answer(message_for_user)
+async def help_info(callback_query: CallbackQuery):
+    await callback_query.message.edit_reply_markup(reply_markup=None)
+    await callback_query.message.answer(ANSWERS.get('help_info'), reply_markup=back_menu_keyboard)
 
 
 def register_handlers(dp: Dispatcher):
     dp.register_message_handler(start, commands=['start', 'help'])
-    # dp.register_message_handler(menu, text='Меню 📱')
-    # dp.register_message_handler(menu, text='Я завершив рибалку 😑')
-    # dp.register_message_handler(menu, text='Повернутися до меню 📱')
-    dp.register_message_handler(help_info, text='FAQ ☎️')
+    dp.register_callback_query_handler(help_info, lambda c: c.data == 'faq')
     dp.register_callback_query_handler(menu, lambda c: c.data == 'menu')
