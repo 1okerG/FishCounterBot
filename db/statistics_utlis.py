@@ -15,11 +15,14 @@ async def fishing_statistics(session, user_id, start_date, end_date):
     fishing_trips_query = fishing_trips_query.scalars().all()
         
     catches_count = await session.execute(
-        select(func.count(distinct(FishingTrip.fishing_date))).where(and_(FishingTrip.user_id == user_id, 
-                                                                         FishingTrip.fishing_date >= start_date, 
-                                                                         FishingTrip.fishing_date <= end_date))
+        select(func.count(distinct(FishingTrip.id))).join(Fish).where(and_(
+            FishingTrip.user_id == user_id,
+            FishingTrip.fishing_date >= start_date,
+            FishingTrip.fishing_date <= end_date
+        ))
     )
     catches_count = catches_count.scalar()
+
         
     trips_count = len(fishing_trips_query)
     unsuccessful_trips_count = trips_count - catches_count
