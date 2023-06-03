@@ -96,12 +96,14 @@ async def handle_confirmation(callback_query: CallbackQuery, state: FSMContext):
         fish_data = await state.get_data()
         fish_name = fish_data.get('fish_name')
         fish_count = int(fish_data.get('fish_count'))
+        user_id=callback_query.from_user.id
         
         async with Session() as session:
             await create_or_update_fish(session=session, user_id=callback_query.from_user.id, 
                                         fish_name=fish_name, fish_count=fish_count) 
         
-        await callback_query.message.answer('Добре, зберігаю дані до твоєї статистики 😉')
+        await callback_query.message.answer('Добре, зберігаю дані до твоєї статистики 😉', 
+                                            reply_markup=back_menu_keyboard)
         await state.finish()
     elif callback_query.data == "no3":
         await callback_query.message.answer('Добре, спробуємо ще раз, обери назву риби',

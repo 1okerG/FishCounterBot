@@ -5,8 +5,10 @@ from handelrs import *
 from db import Base, create_database
 
 
+
 async def on_startup(_):
     await create_database(async_engine, Base.metadata)
+    # pass
         
     
 

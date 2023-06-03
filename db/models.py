@@ -17,7 +17,7 @@ class User(Base):
 class FishingTrip(Base):
     __tablename__ = 'fishingtrip'
     id = Column(Integer, primary_key=True)
-    fishing_date = Column(Date, default=date.today, unique=True)
+    fishing_date = Column(Date, default=date.today)
     user_id = Column(Integer, ForeignKey('user.user_id'))
     user = relationship('User', backref=backref('fishingtrips', lazy=True))
 
@@ -27,7 +27,7 @@ class Fish(Base):
     id = Column(Integer, primary_key=True)
     fish_name = Column(String(50))
     fish_count = Column(Integer)
-    fishing_date = Column(Date, ForeignKey('fishingtrip.fishing_date'))
+    fishingtrip_id = Column(Integer, ForeignKey('fishingtrip.id'))
     user_id = Column(Integer, ForeignKey('user.user_id'))
     fishingtrip = relationship('FishingTrip', backref=backref('fish', lazy=True))
     user = relationship('User', backref=backref('fish', lazy=True))

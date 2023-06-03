@@ -17,3 +17,4 @@ def get_session_maker(async_engine):
 async def create_database(engine, metadata):
     async with engine.begin() as conn:
         await conn.run_sync(metadata.create_all)
+

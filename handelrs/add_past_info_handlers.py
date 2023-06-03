@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -38,16 +38,16 @@ async def show_calendar(callback_query: CallbackQuery, state: FSMContext):
         await AddPastInfo.date_select.set()
 
 async def select_date(callback_query: CallbackQuery, callback_data: dict, state: FSMContext):
-    selected, date = await SimpleCalendar().process_selection(callback_query, callback_data)
+    selected, fishing_date = await SimpleCalendar().process_selection(callback_query, callback_data)
     if selected:
-        date = date.date()
-        if date > datetime.today().date():
+        fishing_date = fishing_date.date()
+        if fishing_date > datetime.date.today():
             await callback_query.message.answer('Ти обрав дату у майбутньому 😁\nСпробуй ще раз=)',
                                                 reply_markup=await SimpleCalendar().start_calendar())
             await AddPastInfo.date_select.set()
         else:
-            await state.update_data(date=date)
-            await callback_query.message.answer(f'Дата твоєї рибалки: {date}, вірно? 🛳', 
+            await state.update_data(date=fishing_date)
+            await callback_query.message.answer(f'Дата твоєї рибалки: {fishing_date}, вірно? 🛳', 
                                                 reply_markup=confirm_keyboard4)
             await AddPastInfo.add_date.set()
 
@@ -70,7 +70,7 @@ async def add_fishing_date(callback_query: CallbackQuery, state: FSMContext):
         if already_fishing:
             message_for_user = 'Бачу, що цього дня ти вже був на риболовлі, хочеш додати трофеї? 😉'
         elif not already_fishing:
-            message_for_user = 'Додатю дату до стастистики, ти спіймав тоді рибу? 😉'
+            message_for_user = 'Додаю дату до стастистики, ти спіймав тоді рибу? 😉'
         
         await callback_query.message.answer(message_for_user, reply_markup=confirm_keyboard3)
         await AddPastInfo.fish_set.set()
@@ -112,7 +112,7 @@ async def confirmation(callback_query: CallbackQuery, state: FSMContext):
         data = await state.get_data()
         fish_name = data.get('fish_name')
         fish_count = int(data.get('fish_count'))
-        user_id = data.get('user_id')
+        user_id = callback_query.from_user.id
         fishing_date = data.get('date')
         
         async with Session() as session:

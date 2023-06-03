@@ -1,6 +1,5 @@
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 from sqlalchemy import and_, distinct, func
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy import select
 
 from .models import *
@@ -12,15 +11,14 @@ async def fishing_statistics(session, user_id, start_date, end_date):
         select(FishingTrip).where(and_(FishingTrip.user_id == user_id, 
                                        FishingTrip.fishing_date >= start_date, 
                                        FishingTrip.fishing_date <= end_date))
-        )
+    )
     fishing_trips_query = fishing_trips_query.scalars().all()
         
-        
     catches_count = await session.execute(
-        select(func.count(distinct(Fish.fishing_date))).where(and_(Fish.user_id == user_id, 
-                                                                   Fish.fishing_date >= start_date, 
-                                                                   Fish.fishing_date <= end_date))
-        )
+        select(func.count(distinct(FishingTrip.fishing_date))).where(and_(FishingTrip.user_id == user_id, 
+                                                                         FishingTrip.fishing_date >= start_date, 
+                                                                         FishingTrip.fishing_date <= end_date))
+    )
     catches_count = catches_count.scalar()
         
     trips_count = len(fishing_trips_query)
@@ -32,9 +30,9 @@ async def fishing_statistics(session, user_id, start_date, end_date):
     for trip in fishing_trips_query:
         fish_query = await session.execute(
             select(Fish.fish_name, func.sum(Fish.fish_count)).where(and_(
-                Fish.fishing_date == trip.fishing_date, 
+                Fish.fishingtrip_id == trip.id, 
                 Fish.user_id == user_id)).group_by(Fish.fish_name)
-            )
+        )
         fish_query = fish_query.fetchall()
             
         for fish in fish_query:

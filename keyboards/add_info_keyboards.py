@@ -58,23 +58,28 @@ select_fish_keyboard = InlineKeyboardMarkup(inline_keyboard=[
         InlineKeyboardButton('Карась', callback_data='Карась'),
         InlineKeyboardButton('Плотва', callback_data='Плотва'),
         InlineKeyboardButton('Лящ', callback_data='Лящ')
-    ]
+    ],
+    [
+        InlineKeyboardButton('Амур', callback_data='Амур'),
+        InlineKeyboardButton('Бичок', callback_data='Бичок'),
+        InlineKeyboardButton('Лин', callback_data='Лин')
+    ],
 ])
 
 select_fishcount_keyabord = InlineKeyboardMarkup(inline_keyboard=[
     [
-        InlineKeyboardButton('1', callback_data='1'),
-        InlineKeyboardButton('2', callback_data='2'),
-        InlineKeyboardButton('3', callback_data='3')
+        InlineKeyboardButton('\u0031\u20E3', callback_data='1'),
+        InlineKeyboardButton('\u0032\u20E3', callback_data='2'),
+        InlineKeyboardButton('\u0033\u20E3', callback_data='3')
     ],
     [
-        InlineKeyboardButton('4', callback_data='4'),
-        InlineKeyboardButton('5', callback_data='5'),
-        InlineKeyboardButton('6', callback_data='6')
+        InlineKeyboardButton('\u0034\u20E3', callback_data='4'),
+        InlineKeyboardButton('\u0035\u20E3', callback_data='5'),
+        InlineKeyboardButton('\u0036\u20E3', callback_data='6')
     ],
     [
-        InlineKeyboardButton('7', callback_data='7'),
-        InlineKeyboardButton('8', callback_data='8'),
-        InlineKeyboardButton('9', callback_data='9')
+        InlineKeyboardButton('\u0037\u20E3', callback_data='7'),
+        InlineKeyboardButton('\u0038\u20E3', callback_data='8'),
+        InlineKeyboardButton('\u0039\u20E3', callback_data='9')
     ]
 ])

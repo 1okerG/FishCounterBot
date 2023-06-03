@@ -26,3 +26,13 @@ confirm_keyboard1 = InlineKeyboardMarkup(inline_keyboard=[
     ],
 ])
 
+callback_keyboard = InlineKeyboardMarkup(inline_keyboard=[
+    [
+        InlineKeyboardButton('Я знайшов баг \u26A0\ufe0f', callback_data='bag_report'),
+        InlineKeyboardButton('Запропонувати ідею \u267B', callback_data='idea'),
+    ],
+    [
+        InlineKeyboardButton('Повернутись до меню \U0001F4F1', callback_data='menu'),
+    ],
+])
+
