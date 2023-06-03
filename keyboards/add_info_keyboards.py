@@ -36,8 +36,6 @@ confirm_keyboard4 = InlineKeyboardMarkup(inline_keyboard=[
 confirm_keyboard5 = InlineKeyboardMarkup(inline_keyboard=[
     [
         InlineKeyboardButton('Продовжити \u2705', callback_data='continue'),
-    ],
-    [
         InlineKeyboardButton('Повернутись до меню \U0001F4F1', callback_data='menu'),
     ],
 ])
